@@ -18,6 +18,7 @@
             android:text="Statements" />
 
 
+
         <TextView
             android:id="@+id/textView_statement"
             android:layout_width="match_parent"
