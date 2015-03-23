@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:text="Username"
+                android:id="@+id/text_user_name"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Trial Times"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:text="Username"
+                android:id="@+id/text_times"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:padding="5dp"
+
+            android:text="If you would like to make any changes about your account such as username or password, please email Han at hanl4@student.unimelb.edu.au" />
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:textColor="#21dbd4"
+            android:textStyle="bold"
+            android:background="@color/material_blue_grey_800"
+            android:text="Log Me Out" />
+
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.DrawerLayout>
