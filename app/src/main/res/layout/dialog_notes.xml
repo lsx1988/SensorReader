@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <!--android:background="#3b3b3b"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:padding="10dip">
+
+            <!-- View Title Label -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:text="Configurations"
+                android:textSize="25dip"
+                android:textStyle="bold" />
+            <!-- PHone position -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Phone Postion (How do you hold the phone? e.g., A. If the options if others, please specify.)" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup_phone_orientation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:checkedButton="@+id/radio_phone_orientation_1">
+
+                <RadioButton
+                    android:id="@+id/radio_phone_orientation_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A: Left Hand with screen towards face" />
+
+                <RadioButton
+                    android:id="@+id/radio_phone_orientation_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B: Right Hand with screen towards face" />
+
+                <RadioButton
+                    android:id="@+id/radio_phone_orientation_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C: Left pant pocket with screen towards inside (body)" />
+
+                <RadioButton
+                    android:id="@+id/radio_phone_orientation_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="D: Right pant pocket with screen towards inside (body)"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/radio_phone_orientation_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="E: Left pant pocket with screen towards outside" />
+
+                <RadioButton
+                    android:id="@+id/radio_phone_orientation_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="F: Right pant pocket with screen towards outside" />
+
+                <RadioButton
+                    android:id="@+id/radio_phone_orientation_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="O: Others" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/editText_phone_position"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <!-- Rough Route -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:text="2. Rough Routes At Home With Phone (e.g.,A-B-C-A-F-G(Balcony)-A)" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:text="A->Living Room; B->Bathroom; C->Kitchen; D->Living Room; E->Toilet; F->Door; G->Others (Please specify)" />
+
+            <EditText
+                android:id="@+id/edit_route"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="A-" />
+
+            <!-- Weather -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:text="3. Weather (e.g.,A)" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:checkedButton="@+id/radio_weather_1">
+
+                <RadioButton
+                    android:id="@+id/radio_weather_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A: Sunny" />
+
+                <RadioButton
+                    android:id="@+id/radio_weather_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B: Rainy" />
+
+                <RadioButton
+                    android:id="@+id/radio_weather_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C: Windy"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/radio_weather_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="D: Cloudy"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/radio_weather_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="O: Others" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/edit_weather"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <!-- Main Activities Defination -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:text="4. Main Activities With Phone" />
+
+            <CheckBox
+                android:id="@+id/checkBox_activity_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClicked"
+                android:checked="true"
+                android:text="A: Breakfast;" />
+
+            <CheckBox
+                android:id="@+id/checkBox_activity_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClicked"
+                android:checked="true"
+                android:text="B: Shower" />
+
+            <CheckBox
+                android:id="@+id/checkBox_activity_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClicked"
+                android:checked="true"
+                android:text="C: Toilet" />
+
+            <CheckBox
+                android:id="@+id/checkBox_activity_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClicked"
+                android:checked="true"
+                android:text="D: Dressing" />
+
+            <CheckBox
+                android:id="@+id/checkBox_activity_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClicked"
+                android:text="E: Computer" />
+
+            <CheckBox
+                android:id="@+id/checkBox_activity_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClicked"
+                android:text="F: Reading" />
+
+            <CheckBox
+                android:id="@+id/checkBox_activity_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClicked"
+                android:checked="true"
+                android:text="G: Phone Related, e.g., facebook, chatting, talk, message, etc" />
+
+            <CheckBox
+                android:id="@+id/checkBox_activity_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCheckboxClicked"
+                android:text="O: Others" />
+
+            <EditText
+                android:id="@+id/edit_activity"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <!-- Notes -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:text="5. Notes (e.g.,please make some notes about this data collection set below especially wrongly press the &apos;Record Time&apos; button.)" />
+
+            <EditText
+                android:id="@+id/edit_note"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:text="" />
+
+
+            <!-- Error message -->
+            <TextView
+                android:id="@+id/textView_errors"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:textColor="@color/red"
+                android:text="" />
+
+
+            <!-- Login Button -->
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_OK"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:background="#3B5998"
+
+            android:text="OK" />
+
+        <Button
+            android:id="@+id/btn_Cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:background="@color/material_deep_teal_200"
+            android:text="Cancel" />
+
+
+    </LinearLayout>
+</ScrollView>

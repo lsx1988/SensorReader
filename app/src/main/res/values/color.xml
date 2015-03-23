@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="button_color">#FFEEEEEE</color>
+
+    <color name="blue">#b0e0e6</color>
+    <color name="black">#000000</color>
+    <color name="green">#347C2C</color>
+    <color name="pink">#FF00FF</color>
+    <color name="violet">#a020f0</color>
+    <color name="grey">#cccccc</color>
+    <color name="red">#C11B17</color>
+    <color name="yellow">#FFFF8C</color>
+    <color name="PowderBlue">#b0e0e6</color>
+    <color name="brown">#2F1700</color>
+    <color name="darkgrey">#606060</color>
+
+    <!-- color from material design -->
+    <color name="darkGreen">#009587</color>
+    <color name="orange">#FF6F42</color>
+    <color name="white">#ffffff</color>
+    <color name="path_color">#1e88e5</color>
+
+
+</resources>

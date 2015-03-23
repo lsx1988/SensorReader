@@ -1,0 +1,74 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/statement_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="25dp"
+            android:text="Statements" />
+
+
+        <TextView
+            android:id="@+id/textView_statement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/statement_title"
+            android:layout_marginTop="10dp"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:text="Dear All,\nFirst, I would like to express my appreciation for your kindness to help me with this data collection.\n\nThis tool is only used to collect the sensor data from this phone, and the data shall be used for research purpose but not limited to other utilities as well. However, any use of this data shall be fully explained to the subject and granded permission before the real action." />
+
+        <TextView
+            android:id="@+id/textView_statement2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_statement"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:text="The data that this app will collect on this phone includes as follows:"></TextView>
+
+
+        <ListView
+            android:id="@+id/sensor_list"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/textView_statement2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"></ListView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_sensor_list"
+            android:layout_below="@+id/sensor_list"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:gravity="center_vertical"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/last_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_sensor_list"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:text="If you have any questions, please contact Han at hanl4@student.unimelb.edu.au. \n\n\nThanks,\nHan"></TextView>
+    </RelativeLayout>
+</ScrollView>

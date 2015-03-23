@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false"
+        android:id="@+id/profile_setting_scroll_view"
+        android:background="@color/PowderBlue">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/PowderBlue">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Status"
+                android:id="@+id/txtStatus"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="30dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Sensors"
+                android:textSize="20dip"
+                android:textColor="#21dbd4"
+                android:textStyle="bold"
+                android:id="@+id/btnStart"
+                android:layout_weight="1"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/material_deep_teal_500"
+
+
+                />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stop Sensors"
+                android:textSize="20dip"
+                android:textColor="#21dbd4"
+                android:textStyle="bold"
+                android:id="@+id/btnStop"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/red" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Record Leaving Times"
+                android:textSize="20dip"
+                android:textColor="#21dbd4"
+                android:textStyle="bold"
+                android:id="@+id/btnRecord"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/orange" />
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="fileName"
+                android:id="@+id/txtFileName"
+                android:textSize="25dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtRecordTimes"
+                android:text="file context"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</android.support.v4.widget.DrawerLayout>
