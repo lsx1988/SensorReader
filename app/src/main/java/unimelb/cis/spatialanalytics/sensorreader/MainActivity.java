@@ -4,6 +4,7 @@ package unimelb.cis.spatialanalytics.sensorreader;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +23,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import unimelb.cis.spatialanalytics.sensorreader.config.ConstantConfig;
+import unimelb.cis.spatialanalytics.sensorreader.config.ForceCloseExceptionHandler;
+import unimelb.cis.spatialanalytics.sensorreader.config.SettingConfig;
+import unimelb.cis.spatialanalytics.sensorreader.data.Users;
 import unimelb.cis.spatialanalytics.sensorreader.fragments.FragmentAccount;
 import unimelb.cis.spatialanalytics.sensorreader.fragments.FragmentMainPanel;
+import unimelb.cis.spatialanalytics.sensorreader.fragments.FragmentSetting;
 import unimelb.cis.spatialanalytics.sensorreader.fragments.FragmentStatement;
 import unimelb.cis.spatialanalytics.sensorreader.fragments.FragmentUploadFile;
-import unimelb.cis.spatialanalytics.sensorreader.views.NoticeDialogFragment;
+import unimelb.cis.spatialanalytics.sensorreader.views.NoteFragmentDialog;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -54,7 +60,7 @@ import unimelb.cis.spatialanalytics.sensorreader.views.NoticeDialogFragment;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MainActivity extends ActionBarActivity implements NoticeDialogFragment.NoticeDialogListener {
+public class MainActivity extends ActionBarActivity implements NoteFragmentDialog.NoteDialogListener {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -71,7 +77,10 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
     private Fragment mainPanelFragment;
     private Fragment accountFragment;
     private Fragment uploadFileFragment;
-    private Fragment fileFragment;
+    private Fragment aboutFragment;
+    private Fragment settingFragment;
+    private String TAG = this.getClass().getSimpleName();
+
 
     FragmentTransaction fragmentTransaction;
 
@@ -82,6 +91,18 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Thread.setDefaultUncaughtExceptionHandler(new ForceCloseExceptionHandler(this));
+
+        Log.i(TAG, "onCreate......");
+
+        if (SettingConfig.pref == null) {
+            SettingConfig.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        }
+
+
+        SettingConfig.iniWithoutLogin(SettingConfig.pref);
+
 
         mTitle = mDrawerTitle = getTitle();
         mDrawerItemStrings = getResources().getStringArray(R.array.nav_drawer_items);
@@ -107,7 +128,8 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
         mainPanelFragment = new FragmentMainPanel();
         accountFragment = new FragmentAccount();
         uploadFileFragment = new FragmentUploadFile();
-        fileFragment = new FragmentStatement();
+        aboutFragment = new FragmentStatement();
+        settingFragment = new FragmentSetting();
 
         Bundle bundle = new Bundle();
     /*    bundle.putInt("TAG", ConstantConfig.FRAGMENT_MAIN_PANEL);
@@ -115,7 +137,6 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
         bundle.clear();*/
         bundle.putInt("TAG", ConstantConfig.FRAGMENT_UPLOAD_FILE);
         uploadFileFragment.setArguments(bundle);
-
 
 
         // ActionBarDrawerToggle ties together the the proper interactions
@@ -174,7 +195,6 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
             case R.id.radio:
                 // create intent to perform web search for this planet
 
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -196,26 +216,28 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
      *
      * @param openedFragment
      */
-    private void switchFragments(Fragment openedFragment,int position) {
+    private void switchFragments(Fragment openedFragment, int position) {
         if (openedFragment.isAdded())
             fragmentTransaction.show(openedFragment);
         else
-            fragmentTransaction.add(R.id.content_frame, openedFragment,String.valueOf(position));
+            fragmentTransaction.add(R.id.content_frame, openedFragment, String.valueOf(position));
 
         if (!mainPanelFragment.equals(openedFragment) && mainPanelFragment.isAdded())
             fragmentTransaction.hide(mainPanelFragment);
-        if (!fileFragment.equals(openedFragment) && fileFragment.isAdded())
-            fragmentTransaction.hide(fileFragment);
-        if (!accountFragment.equals(openedFragment) && accountFragment.isAdded())
-        {
+        if (!aboutFragment.equals(openedFragment) && aboutFragment.isAdded())
+            fragmentTransaction.hide(aboutFragment);
+        if (!accountFragment.equals(openedFragment) && accountFragment.isAdded()) {
             fragmentTransaction.hide(accountFragment);
-            ((FragmentAccount)accountFragment).setUploadTimes();
+            ((FragmentAccount) accountFragment).setUploadTimes();
         }
         if (!uploadFileFragment.equals(openedFragment) && uploadFileFragment.isAdded())
             fragmentTransaction.hide(uploadFileFragment);
 
-
+        if (!settingFragment.equals(openedFragment) && settingFragment.isAdded())
+            fragmentTransaction.hide(settingFragment);
         fragment = openedFragment;
+
+
     }
 
 
@@ -234,8 +256,11 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
         PRESENT_FRAGMENT_ID = position;
 
 
-        if (mainPanelFragment != null && fileFragment != null
-                && uploadFileFragment != null && accountFragment != null) {
+        if (mainPanelFragment != null
+                && aboutFragment != null
+                && uploadFileFragment != null
+                && accountFragment != null
+                && settingFragment != null) {
 
             //FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -248,16 +273,22 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
             fragment = null;
             switch (position) {
                 case ConstantConfig.FRAGMENT_MAIN_PANEL:
-                    switchFragments(mainPanelFragment,position);
+                    switchFragments(mainPanelFragment, position);
                     break;
-                case ConstantConfig.FRAGMENT_FILE_MANAGEMENT:
-                    switchFragments(fileFragment,position);
+                case ConstantConfig.FRAGMENT_STATEMENT:
+                    switchFragments(aboutFragment, position);
                     break;
                 case ConstantConfig.FRAGMENT_ACCOUNT:
-                    switchFragments(accountFragment,position);
+                    switchFragments(accountFragment, position);
                     break;
                 case ConstantConfig.FRAGMENT_UPLOAD_FILE:
-                    switchFragments(uploadFileFragment,position);
+                    switchFragments(uploadFileFragment, position);
+                    break;
+
+                case ConstantConfig.FRAGMENT_SETTING:
+
+
+                    switchFragments(settingFragment, position);
                     break;
 
                 default:
@@ -302,30 +333,71 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogFragm
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
 
-        if (fragment != null && fragment == mainPanelFragment) {
-            ((FragmentMainPanel) fragment).onDialogPositiveClick(dialog);
+        //please notice that, this onDialogPositiveClick is solely designed for the MainPanelFragment only.
+        if (fragment != null) {
+            if (fragment == mainPanelFragment)
+                ((FragmentMainPanel) fragment).onDialogPositiveClick(dialog);
+            else if (mainPanelFragment != null)// && SettingConfig.getSensingMode() == ConstantConfig.SENSING_MODE_AUTO)
+                ((FragmentMainPanel) mainPanelFragment).onDialogPositiveClick(dialog);
         }
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart");
+        //if the sensing mode is auto, open the main_panel automatically
+       // if (SettingConfig.getSensingMode() == ConstantConfig.SENSING_MODE_AUTO && FragmentMainPanel.isStart) {
+       // if ( FragmentMainPanel.isStart) {
+            selectItem(ConstantConfig.FRAGMENT_MAIN_PANEL);
+        //}
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop");
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy IS CALLED!");
+
+        Users.exceptionalLogOut(this);
+    }
+
+    /*
+    @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
 
-        if (fragment != null && fragment == mainPanelFragment) {
-            ((FragmentMainPanel) fragment).onDialogNegativeClick(dialog);
+        if (fragment != null) {
+            if (fragment == mainPanelFragment)
+                ((FragmentMainPanel) fragment).onDialogNegativeClick(dialog);
+
+            else if (mainPanelFragment != null && SettingConfig.getSensingMode() == ConstantConfig.SENSING_MODE_AUTO)
+                ((FragmentMainPanel) mainPanelFragment).onDialogPositiveClick(dialog);
         }
 
-    }
+    }*/
 
-
+/*
     public void onCheckboxClicked(View view) {
 
-        if (fragment != null && fragment == mainPanelFragment) {
-            ((FragmentMainPanel) fragment).onCheckboxClicked(view);
+        if (fragment != null) {
+            if (fragment == mainPanelFragment)
+                ((FragmentMainPanel) fragment).onCheckboxClicked(view);
+
+
         }
-    }
-
-
-
+    }*/
 
 
     /**************************************************************/

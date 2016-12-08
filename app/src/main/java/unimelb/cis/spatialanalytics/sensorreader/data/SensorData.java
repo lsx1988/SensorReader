@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.net.wifi.ScanResult;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,13 +23,18 @@ import unimelb.cis.spatialanalytics.sensorreader.io.FileIO;
  * 1) the files that store sensor data
  * 2) the information/attributes about sensor list
  * 3) others
- *
+ * <p/>
  * Please notice that, this class is used when the sensing is running on! After the sensing stopped,
  * all the parameters will be cleared.
  */
 public class SensorData {
 
+
+    private static String TAG="SensorData";
+    //public static boolean isStart=false;//indicate the start button
     public static boolean isSensorRunning = false;
+
+    public static boolean hasPressedRecordButton = false;
 
     public static String dateFolder;
 
@@ -45,9 +51,21 @@ public class SensorData {
 //        if (!myNewFolder.exists()) {
 //            myNewFolder.mkdir();
 //        }
+
         clear();
         isSensorRunning = true;
-        listSensor = list;
+
+
+     Map<String, Boolean> map = new HashMap<String,Boolean>();
+        for(Sensor sensor : list)
+        {
+            if(!map.containsKey(sensor.getName())) {
+                map.put(sensor.getName(), true);
+                listSensor.add(sensor);
+            }
+        }
+
+       // listSensor = list;
         initializeOutputFiles();
     }
 
@@ -57,11 +75,19 @@ public class SensorData {
      * @param sensorNames
      */
     private static void configSensorFiles(String sensorNames) {
+        if(sensorNames == null)
+            return;
+
+        sensorNames = sensorNames.replaceAll("/", "");
+
         String fileNameSplitSymbol = ConstantConfig.FILE_NAME_SPLIT_SYMBOL;
         String filename = sensorNames + fileNameSplitSymbol + dateFolder + ".txt";
         File file = FileIO.createFile(dateFolder, filename);
-        hashSensorDataFiles.put(sensorNames, file);
-        hashCounts.put(sensorNames, 0);
+        if (file != null)
+        {
+            hashSensorDataFiles.put(sensorNames, file);
+            hashCounts.put(sensorNames, 0);
+        }
 
     }
 
@@ -74,11 +100,30 @@ public class SensorData {
 
             for (int i = 0; i < listSensor.size(); i++) {
                 sensorNames = listSensor.get(i).getName();
-                configSensorFiles(sensorNames);
+
+              //  if(listSensor.get(i).getType() != Sensor.TYPE_LIGHT )
+                {
+                    configSensorFiles(sensorNames);
+
+                }
+
 
             }
 
         }
+
+        //Light
+/*        sensorNames = ConstantConfig.KEY_LIGHT_FILE_NAME;
+        configSensorFiles(sensorNames);
+        */
+
+//CellTower
+        sensorNames = ConstantConfig.KEY_CELLTOWRER_FILE_NAME;
+        configSensorFiles(sensorNames);
+
+        //Bluetooth
+        sensorNames = ConstantConfig.KEY_BLUETOOTH_FILE_NAME;
+        configSensorFiles(sensorNames);
 
         //location
         sensorNames = ConstantConfig.KEY_LOCATION_FILE_NAME;
@@ -114,6 +159,7 @@ public class SensorData {
      */
 
     public static void clear() {
+        Log.i(TAG, "clear()");
         listSensor = new ArrayList<>();
         if (hashSensorDataFiles != null)
             hashSensorDataFiles.clear();
@@ -124,9 +170,6 @@ public class SensorData {
         if (hashCounts != null)
             hashCounts.clear();
 
-        isSensorRunning = false;
-
-
     }
 
 
@@ -134,7 +177,7 @@ public class SensorData {
 
         List<Sensor> sensors;
         List<String> sensorNames = new ArrayList<String>();
-        if(context==null)
+        if (context == null)
             return sensorNames;
 
         if (listSensor == null || listSensor.size() == 0) {

@@ -16,6 +16,6 @@ public class DialogButtonHorizontalView extends LinearLayout {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.dialog_phone_orientation, this, true);
+        inflater.inflate(R.layout.dialog_button_ok_cancel_horizontal, this, true);
     }
 }

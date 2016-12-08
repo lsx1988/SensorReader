@@ -1,16 +1,19 @@
 package unimelb.cis.spatialanalytics.sensorreader.helps;
 
+import unimelb.cis.spatialanalytics.sensorreader.data.Users;
+
 /**
  * Created by hanl4 on 18/03/2015.
+ * Solely used to generate unique file names
  */
 public class GenerateFileNames {
-    public static int leavingCounts=0;
+
 
     public static String getFileNames()
     {
-        if(leavingCounts==0)
+        if(Users.record_times==0)
             return CustomizedTime.getToday();
         else
-            return CustomizedTime.getToday()+"_"+String.valueOf(leavingCounts);
+            return CustomizedTime.getToday()+"_"+String.format("%03d",Users.record_times);
     }
 }

@@ -1,5 +1,6 @@
 package unimelb.cis.spatialanalytics.sensorreader.sensors;
 
+import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,9 +25,9 @@ public class BluetoothScanner extends BroadcastReceiver {
     private String TAG = this.getClass().getSimpleName();
     private IntentFilter filterW;
     private PowerManager pm;
-    private WifiManager wm;
+    private BluetoothManager wm;
     private PowerManager.WakeLock wl;
-    private WifiManager.WifiLock wifil;
+   // private WifiManager.WifiLock wifil;
 
     private int WiFi_SAMPLE_RATE = ConstantConfig.WiFi_SAMPLE_RATE;
 
@@ -92,9 +93,10 @@ public class BluetoothScanner extends BroadcastReceiver {
         wl.acquire();
         if (wl.isHeld())
             Log.d("PowerManager", "Lock Held");
-        wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        wifil = wm.createWifiLock(WifiManager.WIFI_MODE_SCAN_ONLY, "wifilock");
-        wifil.acquire();
+        wm = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+
+        //wifil = wm.createWifiLock(WifiManager.WIFI_MODE_SCAN_ONLY, "wifilock");
+        //wifil.acquire();
     }
 
 
@@ -103,7 +105,7 @@ public class BluetoothScanner extends BroadcastReceiver {
         context.unregisterReceiver(this);
         periodicHandler.removeMessages(0);
         wl.release();
-        wifil.release();
+        //wifil.release();
     }
 
 

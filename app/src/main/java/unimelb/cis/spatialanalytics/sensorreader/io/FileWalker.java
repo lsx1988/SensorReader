@@ -33,17 +33,21 @@ public class FileWalker {
 
         int fileCounts = 0;
         ArrayList<File> listAll = new ArrayList<File>();
-        if (root == null)
+        if (root == null || !root.exists()) {
+            Log.e(TAG, "root is null or doesn't exist.");
             return listAll;
+        }
         File[] list = root.listFiles();
         if (list == null)
             return listAll;
 
 
         for (File f : list) {
+         //   if (f.isDirectory() && !FragmentMainPanel.isStart) {
             if (f.isDirectory()) {
 
                 if (SensorData.isSensorRunning) {
+                    String s = f.getName();
                     if (!f.getName().contains(SensorData.dateFolder)) {
                         exploreFolder(requestCode, f, listAll);
 
@@ -67,6 +71,13 @@ public class FileWalker {
 
     }
 
+    /**
+     * explore folders; notice that, if the folder doesn't exist, it will be deleted.
+     *
+     * @param requestCode
+     * @param f
+     * @param listAll
+     */
     public void exploreFolder(int requestCode, File f, ArrayList<File> listAll) {
         walk(f, requestCode);
         File[] tempList = f.listFiles();
@@ -94,6 +105,10 @@ public class FileWalker {
     public boolean deleteWalker(File root) {
         if (root == null) {
             Log.e(TAG, "root can not be null!");
+            return false;
+        }
+        if (!root.exists()) {
+            Log.e(TAG, "root doesn't exist!" + root.getAbsolutePath());
             return false;
         }
 
@@ -157,11 +172,12 @@ public class FileWalker {
      *
      * @return
      */
-    public List<File> createGroupList() {
+    public synchronized List<File> createGroupList() {
 
-        if (SettingConfig.getUserExternalStoragePath() == null)
+        if (SettingConfig.getUserExternalStoragePath() == null) {
+            Log.e(TAG, "SettingConfig.getUserExternalStoragePath() is null");
             return new ArrayList<File>();
-        else
+        } else
 
             return walk(new File(SettingConfig.getUserExternalStoragePath()), ConstantConfig.KEY_WALK_FOLDER);
 
@@ -173,9 +189,13 @@ public class FileWalker {
      *
      * @return
      */
-    public Map<File, List<File>> createCollection() {
+    public synchronized Map<File, List<File>> createCollection() {
 
         Map<File, List<File>> collections = new LinkedHashMap<File, List<File>>();
+        if (SettingConfig.getUserExternalStoragePath() == null) {
+            Log.e(TAG, "getUserExternalStoragePath is null");
+            return collections;
+        }
         ArrayList<File> folders = walk(new File(SettingConfig.getUserExternalStoragePath()), ConstantConfig.KEY_WALK_FOLDER);
 
         for (File file : folders) {

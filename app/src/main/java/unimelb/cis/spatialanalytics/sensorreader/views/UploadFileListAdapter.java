@@ -24,10 +24,10 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import unimelb.cis.spatialanalytics.sensorreader.R;
 import unimelb.cis.spatialanalytics.sensorreader.config.ConstantConfig;
+import unimelb.cis.spatialanalytics.sensorreader.data.FileListManager;
 import unimelb.cis.spatialanalytics.sensorreader.http.MyExceptionHandler;
 import unimelb.cis.spatialanalytics.sensorreader.http.UploadFileToServer;
 import unimelb.cis.spatialanalytics.sensorreader.io.FileIO;
@@ -41,8 +41,6 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
     private FileWalker fileWalker = new FileWalker();
     private FileIO fileIO = new FileIO();
     private Activity context;
-    private Map<File, List<File>> fileCollections;
-    private List<File> folderList;
     private ExpandableListView expListView;
     private TextView textViewError;
 
@@ -56,11 +54,9 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
 
 
 
-    public UploadFileListAdapter(Activity context, TextView textViewError, ExpandableListView expListView,List<File> folderList,
-                                 Map<File, List<File>> fileCollections) {
+    public UploadFileListAdapter(Activity context, TextView textViewError, ExpandableListView expListView) {
         this.context = context;
-        this.fileCollections = fileCollections;
-        this.folderList = folderList;
+
         this.expListView=expListView;
         this.textViewError=textViewError;
         this.exceptionHandler=new MyExceptionHandler(TAG,context);
@@ -68,10 +64,8 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
 
 
 
-    public void setListValues(List<File> folderList,
-                              Map<File, List<File>> fileCollections) {
-        this.fileCollections = fileCollections;
-        this.folderList = folderList;
+    public void doNotifyDataSetInvalidated() {
+
         notifyDataSetInvalidated();
     }
 
@@ -79,7 +73,7 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
 
 
         try {
-            String s = fileCollections.get(folderList.get(groupPosition)).get(childPosition).getName();
+            String s = FileListManager.getFileCollections().get(FileListManager.getFolderList().get(groupPosition)).get(childPosition).getName();
 
             if (s == null)
                 return s;
@@ -136,20 +130,24 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
 
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("Do you want to delete the folder "+folderList.get(groupPosition).getName()+"? \nPlease notice that, all the files under this folder will be deleted, and the operation can't be recovered anyhow.");
+                    builder.setMessage("Do you want to delete the folder "+ FileListManager.getFolderList().get(groupPosition).getName()+"? \nPlease notice that, all the files under this folder will be deleted, and the operation can't be recovered anyhow.");
                     builder.setCancelable(false);
                     builder.setPositiveButton("Yes",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    File file = folderList.get(groupPosition);
+                                    File file = FileListManager.getFolderList().get(groupPosition);
+
+
                                     if (fileWalker.deleteWalker(file)) {
-                                        folderList.remove(file);
+                                        FileListManager.getFolderList().remove(file);
+                                        FileListManager.removeBoth(UploadFileListAdapter.this,file);
+
                                         //onGroupCollapsed(groupPosition);
                                         expListView.collapseGroup(groupPosition);
 
                                     }
-                                    //fileCollections.remove(folderList.get(groupPosition));
-                                    notifyDataSetChanged();
+                                    //FileListManager.fileCollections.remove(FileListManager.folderList.get(groupPosition));
+                                    //notifyDataSetChanged();
                                 }
                             });
                     builder.setNegativeButton("No",
@@ -178,7 +176,7 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
      */
     public void showFileInfo(int groupPosition, int childPosition, LayoutInflater inflater, String fileName) {
         List<File> child =
-                fileCollections.get(folderList.get(groupPosition));
+                FileListManager.getFileCollections().get(FileListManager.getFolderList().get(groupPosition));
         File file = child.get(childPosition);
 
         //UI
@@ -198,15 +196,16 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
     }
 
     public int getChildrenCount(int groupPosition) {
-        return fileCollections.get(folderList.get(groupPosition)).size();
+
+        return FileListManager.getFileCollections().get(FileListManager.getFolderList().get(groupPosition)).size();
     }
 
     public Object getGroup(int groupPosition) {
-        return folderList.get(groupPosition).getName();
+        return FileListManager.getFolderList().get(groupPosition).getName();
     }
 
     public int getGroupCount() {
-        return folderList.size();
+        return FileListManager.getFolderList().size();
     }
 
     public long getGroupId(int groupPosition) {
@@ -228,7 +227,7 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
 
 
         ImageView upload = (ImageView) convertView.findViewById(R.id.upload);
-        if (fileCollections.get(folderList.get(groupPosition)).size() > 0)
+        if (FileListManager.getFileCollections().get(FileListManager.getFolderList().get(groupPosition)).size() > 0)
             upload.setOnClickListener(new OnClickListener() {
 
                 public void onClick(View v) {
@@ -273,13 +272,7 @@ public class UploadFileListAdapter extends BaseExpandableListAdapter {
 
 
 
-    public Map<File, List<File>> getFileCollections() {
-        return fileCollections;
-    }
 
-    public List<File> getFolderList() {
-        return folderList;
-    }
 
 
 }

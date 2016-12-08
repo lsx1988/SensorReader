@@ -18,6 +18,10 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+
 import unimelb.cis.spatialanalytics.sensorreader.R;
 
 /**
@@ -25,13 +29,15 @@ import unimelb.cis.spatialanalytics.sensorreader.R;
  * Make notes about sensor collection
  */
 public class NoticeDialogFragment extends DialogFragment {
+
     //Activity activity;
     /*
      * Settings
      */
     String s_phone_orient;
     String s_route;
-    JSONObject s_activity = new JSONObject();
+    /*JSONObject s_activity = new JSONObject();*/
+    Map<String, String> s_activity = new HashMap<>();
     String s_weather;
     String s_notes;
     JSONObject json = new JSONObject();
@@ -42,6 +48,9 @@ public class NoticeDialogFragment extends DialogFragment {
     private boolean isSuccessSaved = false;
 
     private String jsonValues;
+
+    // Use this instance of the interface to deliver action events
+    NoticeDialogListener mListener;
 
     /* The activity that creates an instance of this dialog fragment must
      * implement this interface in order to receive event callbacks.
@@ -66,8 +75,6 @@ public class NoticeDialogFragment extends DialogFragment {
         return jsonValues;
     }
 
-    // Use this instance of the interface to deliver action events
-    NoticeDialogListener mListener;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
@@ -108,7 +115,7 @@ public class NoticeDialogFragment extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        dialoglayout = inflater.inflate(R.layout.dialog_notes, null);
+        dialoglayout = inflater.inflate(R.layout.dialog_collection_config, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(dialoglayout);
 
@@ -240,6 +247,7 @@ public class NoticeDialogFragment extends DialogFragment {
                 }*/
 
 
+
             }
         });
 
@@ -269,7 +277,7 @@ public class NoticeDialogFragment extends DialogFragment {
      * reset parameters
      */
     public void resetParameters() {
-        s_activity = new JSONObject();
+        s_activity = new Hashtable<>();
         s_weather = "";
         s_phone_orient = "";
         s_notes = "";
@@ -319,7 +327,7 @@ public class NoticeDialogFragment extends DialogFragment {
 
 
             if (editText_weather.isShown()) {
-                if (editText_phone_orientation.getText().toString() == null || editText_weather.getText().toString().equals("")) {
+                if (editText_weather.getText().toString() == null || editText_weather.getText().toString().equals("")) {
                     err.put("Weather EdidText", "Can Not Be Null");
                     flag = false;
                 } else
@@ -386,7 +394,7 @@ public class NoticeDialogFragment extends DialogFragment {
                 err.put("Weather Info", "Can Not Be Null");
             }
 
-            if (s_activity == null || s_activity.equals("")) {
+            if (s_activity == null || s_activity.equals("") || s_activity.size() == 0) {
                 err.put("Main Activity Info", "Can Not Be Null");
                 flag = false;
             }
@@ -442,8 +450,8 @@ public class NoticeDialogFragment extends DialogFragment {
                 if (checked)
                     editText_activity.setVisibility(View.VISIBLE);
                 else {
-                    if (s_activity.has("Eight"))
-                        s_activity.remove("Eight");
+                    if (s_activity.containsKey("8"))
+                        s_activity.remove("8");
                     editText_activity.setVisibility(View.INVISIBLE);
                 }
 

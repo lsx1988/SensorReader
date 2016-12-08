@@ -3,4 +3,81 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Main Activities Definition -->
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:text="4. Main Activities With Phone" />
+
+    <CheckBox
+        android:id="@+id/checkBox_activity_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="A: Breakfast;" />
+
+    <CheckBox
+        android:id="@+id/checkBox_activity_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="B: Shower" />
+
+    <CheckBox
+        android:id="@+id/checkBox_activity_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="C: Toilet" />
+
+    <CheckBox
+        android:id="@+id/checkBox_activity_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="D: Dressing" />
+
+    <CheckBox
+        android:id="@+id/checkBox_activity_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E: Computer" />
+
+    <CheckBox
+        android:id="@+id/checkBox_activity_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="F: Reading" />
+
+    <CheckBox
+        android:id="@+id/checkBox_activity_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="G: Phone Related, e.g., facebook, chatting, talk, message, etc" />
+
+    <CheckBox
+        android:id="@+id/checkBox_activity_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O: Others" />
+
+    <EditText
+        android:id="@+id/edit_activity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/textView_errors"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:textColor="@color/red"
+        android:text="" />
+
+
 </LinearLayout>

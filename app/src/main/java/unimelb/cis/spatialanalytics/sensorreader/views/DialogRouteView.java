@@ -1,6 +1,7 @@
 package unimelb.cis.spatialanalytics.sensorreader.views;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,8 @@ public class DialogRouteView extends LinearLayout {
         return s_route;
     }
 
-    public DialogRouteView(Context context) {
-        super(context);
+    public DialogRouteView(Context context, AttributeSet attrs) {
+        super(context,attrs);
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -59,7 +60,7 @@ public class DialogRouteView extends LinearLayout {
 
 
             if (flag) {
-                MakeNotes.s_route = s_route;
+                MakeNotes.setS_route (s_route);
 
             } else
                 errText.setText(err.toString());

@@ -25,6 +25,7 @@ import unimelb.cis.spatialanalytics.sensorreader.data.Users;
 
 /**
  * Make HTTP Request to upload file only
+ * Not used in this project but may be useful for future use
  */
 public class HTTPFileUploader extends AsyncTask<Object, Void, Object> {
     private final String TAG = this.getClass().getSimpleName();

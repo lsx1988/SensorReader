@@ -28,7 +28,7 @@ import unimelb.cis.spatialanalytics.sensorreader.views.UploadFileListAdapter;
 
 /**
  * Created by hanl4 on 20/03/2015.
- *
+ * <p/>
  * upload files to the server.
  */
 public class UploadFileToServer {
@@ -54,23 +54,41 @@ public class UploadFileToServer {
     ProgressDialog pDialog;
     private TextView textViewError;
 
-    private boolean isUploadAll=true;
+    private boolean isUploadAll = true;
 
     private FileWalker fileWalker = new FileWalker();
 
 
     private CustomizedDialogs customizedDialogs = new CustomizedDialogs();
 
+    /**
+     * Upload to server : single folder
+     *
+     * @param context
+     * @param textViewError
+     * @param expListView
+     * @param expListAdapter
+     * @param groupPosition
+     */
 
-    public UploadFileToServer(Context context, TextView textViewError,ExpandableListView expListView,  UploadFileListAdapter expListAdapter,int groupPosition) {
+    public UploadFileToServer(Context context, TextView textViewError, ExpandableListView expListView, UploadFileListAdapter expListAdapter, int groupPosition) {
+
         this.context = context;
-        this.expListView=expListView;
+        this.expListView = expListView;
         this.expListAdapter = expListAdapter;
-        this.groupPosition=groupPosition;
-        this.textViewError=textViewError;
+        this.groupPosition = groupPosition;
+        this.textViewError = textViewError;
+        this.exceptionHandler = new MyExceptionHandler(TAG, context);
 
-        folder = FileListManager.folderList.get(groupPosition);
-        files = FileListManager.fileCollections.get(folder);
+        if (Users.username == null || Users.username.equals(""))
+
+        {
+            exceptionHandler.getToastError("user name is empty, can not upload files to the server");
+            return;
+        }
+
+        folder = FileListManager.getFolderList().get(groupPosition);
+        files = FileListManager.getFileCollections().get(folder);
         fileNum = files.size();
         fileCounts = 0;
 
@@ -83,7 +101,7 @@ public class UploadFileToServer {
 
         fileCounts = 0;
         pDialog = new ProgressDialog(context);
-        pDialog.setTitle("Uploading all files under folder "+folder.getName()+" to Server");
+        pDialog.setTitle("Uploading all files under folder " + folder.getName() + " to Server");
         pDialog.setCancelable(false);
         pDialog.setMessage(setProcessDialogMessage(fileCounts, fileNum));
         pDialog.show();
@@ -91,27 +109,46 @@ public class UploadFileToServer {
         this.exceptionHandler = new MyExceptionHandler(TAG, context);
 
         ApplicationController.getInstance().getRequestQueue().start();
-        isUploadAll=false;
+        isUploadAll = false;
         uploadOneGroupFiles();
 
 
     }
 
 
+    /**
+     * Upload all the folder files to the server at one time
+     *
+     * @param context
+     * @param textViewError
+     * @param expListAdapter
+     */
+
     public UploadFileToServer(Context context, TextView textViewError, UploadFileListAdapter expListAdapter) {
         this.context = context;
         this.expListAdapter = expListAdapter;
-        isUploadAll=true;
+        isUploadAll = true;
         this.exceptionHandler = new MyExceptionHandler(TAG, context);
-        this.textViewError=textViewError;
+        this.textViewError = textViewError;
+        if (Users.username == null || Users.username.equals(""))
+
+        {
+            exceptionHandler.getToastError("user name is empty, can not upload files to the server");
+            return;
+        }
         uploadAllFiles();
 
     }
 
+    /**
+     * get the total number of files given the root folder
+     *
+     * @return
+     */
     private int getTotalFileNum() {
         int count = 0;
-        for (File folder : FileListManager.fileCollections.keySet()) {
-            List<File> childrenFiles = FileListManager.fileCollections.get(folder);
+        for (File folder : FileListManager.getFileCollections().keySet()) {
+            List<File> childrenFiles = FileListManager.getFileCollections().get(folder);
             count += childrenFiles.size();
 
 
@@ -122,9 +159,12 @@ public class UploadFileToServer {
     }
 
 
+    /**
+     * upload all the files to the server
+     */
     private void uploadAllFiles() {
         fileNum = getTotalFileNum();
-        if (FileListManager.fileCollections.isEmpty() || fileNum == 0) {
+        if (FileListManager.getFileCollections().isEmpty() || fileNum == 0) {
             Log.e(TAG, "no files!");
 
             return;
@@ -141,13 +181,13 @@ public class UploadFileToServer {
 
 
         groupPosition = -1;
-        Set<File> keySet = FileListManager.fileCollections.keySet();
+        Set<File> keySet = FileListManager.getFileCollections().keySet();
 
 
         for (File folderTemp : keySet) {
             groupPosition++;
             folder = folderTemp;
-            files = FileListManager.fileCollections.get(folder);
+            files = FileListManager.getFileCollections().get(folder);
 
             uploadOneGroupFiles();
 
@@ -157,7 +197,9 @@ public class UploadFileToServer {
 
     }
 
-
+    /**
+     * Upload only one folder file to the server
+     */
     private void uploadOneGroupFiles() {
 
         Iterator<File> iterator = files.iterator();
@@ -166,6 +208,15 @@ public class UploadFileToServer {
 
         while (iterator.hasNext()) {
             final File file = iterator.next();
+            if (!file.exists()) {
+                fileCounts++;
+                String msg = "the uploaded file " + file.getAbsolutePath() + " doesn't exist!";
+                Log.w(TAG, msg);
+                closeResources();
+                showAlertMessage(msg);
+
+                continue;
+            }
 
             float fileSize = (float) file.length() / ConstantConfig.MB_UNIT;
             if (fileSize > ConstantConfig.MAXIMUM_UPLOAD_FILE_SIZE) {
@@ -236,7 +287,7 @@ public class UploadFileToServer {
                     fileCounts++;
                     closeResources();
                     isUploadAllSuccess = false;
-                    exceptionHandler.getVolleyError("upload file" + file.getName() + " failed!", error,textViewError);
+                    exceptionHandler.getVolleyError("upload file" + file.getName() + " failed!", error, textViewError);
 
 
                 }
@@ -261,42 +312,40 @@ public class UploadFileToServer {
      */
     public void closeResources() {
         if (fileCounts == fileNum) {
-            int increase=0;
+            int increase = 0;
 
             pDialog.dismiss();
+
             ApplicationController.getInstance().getRequestQueue().stop();
+            if (expListAdapter == null)
+                return;
             if (isUploadAll) {
-                int original=FileListManager.folderList.size();
+                int original = FileListManager.getFolderList().size();
 
                 //file the file name that matches today!
 
-                for(File file:FileListManager.folderList )
-                {
+                for (File file : FileListManager.getFolderList()) {
 
-                    Users.updateUserRecords(file);
+                    Users.updateUserRecordTimesInfo(file);
 
                 }
 
-                FileListManager.folderList = fileWalker.createGroupList();
-                int now=FileListManager.folderList.size();
-                increase=original-now;
-                FileListManager.fileCollections = fileWalker.createCollection();
-                expListAdapter.setListValues(FileListManager.folderList, FileListManager.fileCollections);           // expListAdapter.notifyDataSetChanged();
+                FileListManager.createBoth(expListAdapter);
+                int now = FileListManager.getFolderList().size();
+                increase = original - now;
+                // expListAdapter.notifyDataSetChanged();
 
             } else {
 
-                if (folder != null && folder.delete())
-                {
+                if (folder != null && folder.delete()) {
 
 
-                    Users.updateUserRecords(folder);
+                    Users.updateUserRecordTimesInfo(folder);
 
 
-                    increase=1;
-                    FileListManager.folderList.remove(folder);
-                    FileListManager.fileCollections.remove(folder);
+                    increase = 1;
+                    FileListManager.removeBoth(expListAdapter, folder);
 
-                    expListAdapter.notifyDataSetChanged();
                     expListView.collapseGroup(groupPosition);
 
                     Log.d(TAG, "all the children files have been successfully uploaded to the server and the root is deleted!");
@@ -306,14 +355,12 @@ public class UploadFileToServer {
 
             }
 
-            Users.setUpload_times(increase,context,textViewError);
+            Users.setUpload_times(increase, context, textViewError);
 
 
         }
 
     }
-
-
 
 
     /**
@@ -326,6 +373,11 @@ public class UploadFileToServer {
     }
 
 
+    /**
+     * show alert message
+     *
+     * @param title
+     */
     public void showAlertMessage(String title) {
 
         if (context != null)

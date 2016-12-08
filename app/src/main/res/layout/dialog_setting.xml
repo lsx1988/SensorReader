@@ -2,9 +2,14 @@
 
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -14,35 +19,59 @@
 
             <LinearLayout
                 android:id="@+id/setting_linear_0"
-                style="@style/setting_sub_linear_layout_vertical"
-               >
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
                 <TextView
-                    android:text="*Set Clock (When do you usually get up? The app will automatically opens at that time everyday"
-                    style="@style/setting_left_text" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:gravity="left"
+                    android:text="Do you need to manually modify the data collection?"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:gravity="left"
+                    android:text="e.g., you may made a trivial mistake during the collection, but still want to keep it. Please clearly state how to make modifications about this collection in the Notes section at the very end of this dialog. A concrete example should be, I pressed the 'Record Leaving Time' button wrongly, please remove the first record and starts with the second one."/>
 
-                <LinearLayout
-                    android:id="@+id/setting_linear_layout_clock_time"
-                    style="@style/setting_sub_linear_layout_horizontal">
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:checkedButton="@+id/radio_no"
+                    >
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radio_yes"
+                        android:text="Yes, I made some mistakes, and need make corrections"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radio_no"
 
-                    <TextView
-                        android:text="Clock Time"
-                        android:id="@+id/setting_right_clock_time"
-                        style="@style/setting_right_text" />
+                        android:text="No, the collection was correctly performed"/>
 
-                    <ImageView style="@style/setting_icon" />
-
-                </LinearLayout>
+                </RadioGroup>
 
 
             </LinearLayout>
 
 
+
             <LinearLayout
                 android:id="@+id/setting_linear_1"
 
-                style="@style/setting_sub_linear_layout_vertical"
-              >
+                style="@style/setting_sub_linear_layout_vertical">
 
                 <TextView
                     android:text="*1.Phone Position(How you hold the phone? This Field is Mandatory!)"
@@ -62,6 +91,12 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <unimelb.cis.spatialanalytics.sensorreader.views.DialogPhoneOrientationView
+                android:id="@+id/dialog_phone_orientation"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></unimelb.cis.spatialanalytics.sensorreader.views.DialogPhoneOrientationView>
 
 
             <LinearLayout
@@ -86,8 +121,14 @@
 
                 </LinearLayout>
 
+
             </LinearLayout>
 
+            <unimelb.cis.spatialanalytics.sensorreader.views.DialogRouteView
+                android:id="@+id/dialog_route"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></unimelb.cis.spatialanalytics.sensorreader.views.DialogRouteView>
 
             <LinearLayout
                 android:id="@+id/setting_linear_3"
@@ -110,8 +151,15 @@
                     <ImageView style="@style/setting_icon" />
 
                 </LinearLayout>
+
             </LinearLayout>
 
+
+            <unimelb.cis.spatialanalytics.sensorreader.views.DialogWeatherView
+                android:id="@+id/dialog_weather"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></unimelb.cis.spatialanalytics.sensorreader.views.DialogWeatherView>
 
             <LinearLayout
                 android:id="@+id/setting_linear_4"
@@ -133,8 +181,15 @@
                     <ImageView style="@style/setting_icon" />
 
                 </LinearLayout>
+
+
             </LinearLayout>
 
+            <unimelb.cis.spatialanalytics.sensorreader.views.DialogActivityView
+                android:id="@+id/dialog_activity"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></unimelb.cis.spatialanalytics.sensorreader.views.DialogActivityView>
 
             <LinearLayout
                 android:id="@+id/setting_linear_5"
@@ -157,12 +212,52 @@
                     <ImageView style="@style/setting_icon" />
 
                 </LinearLayout>
+
             </LinearLayout>
 
+            <unimelb.cis.spatialanalytics.sensorreader.views.DialogNoteView
+                android:id="@+id/dialog_note"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></unimelb.cis.spatialanalytics.sensorreader.views.DialogNoteView>
 
         </LinearLayout>
 
-    </ScrollView>
+        <TextView
+            android:id="@+id/textView_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="italic"
+            android:textColor="@color/red" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/linear_layout_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/all_btn_OK"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:background="#3B5998"
+
+                android:text="Dismiss" />
+
+            <Button
+                android:id="@+id/all_btn_Cancel"
+                android:visibility="gone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:background="@color/material_deep_teal_200"
+                android:text="Cancel" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
 
 
 

@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Phone Postion (How do you hold the phone? e.g., A. If the options if others, please specify.)" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup_phone_orientation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text">
+
+        <RadioButton
+            android:id="@+id/radio_phone_orientation_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A: Left Hand with screen towards face" />
+
+        <RadioButton
+            android:id="@+id/radio_phone_orientation_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B: Right Hand with screen towards face" />
+
+        <RadioButton
+            android:id="@+id/radio_phone_orientation_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C: Left pant pocket with screen towards inside (body)" />
+
+        <RadioButton
+            android:id="@+id/radio_phone_orientation_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D: Right pant pocket with screen towards inside (body)"
+            android:checked="false" />
+
+        <RadioButton
+            android:id="@+id/radio_phone_orientation_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E: Left pant pocket with screen towards outside" />
+
+        <RadioButton
+            android:id="@+id/radio_phone_orientation_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="F: Right pant pocket with screen towards outside" />
+
+        <RadioButton
+            android:id="@+id/radio_phone_orientation_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="O: Others" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editText_phone_position"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/textView_errors"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:textColor="@color/red"
+        android:text="" />
+
 
 </LinearLayout>

@@ -35,7 +35,10 @@ public class MyExceptionHandler {
         this.context=context;
     }
 
+
     public void getVolleyError(String errorMsg, VolleyError error,TextView textViewError) {
+        if(textViewError==null)
+            return ;
         textViewError.setText("");
         if (errorMsg == null || errorMsg.equals(""))
             errorMsg = "Error";

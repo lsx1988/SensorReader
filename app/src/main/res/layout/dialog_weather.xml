@@ -2,5 +2,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!-- Weather -->
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:text="3. Weather (e.g.,A)" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text"
+  >
+
+        <RadioButton
+            android:id="@+id/radio_weather_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A: Sunny" />
+
+        <RadioButton
+            android:id="@+id/radio_weather_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B: Rainy" />
+
+        <RadioButton
+            android:id="@+id/radio_weather_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C: Windy"
+            android:checked="false" />
+
+        <RadioButton
+            android:id="@+id/radio_weather_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D: Cloudy"
+            android:checked="false" />
+
+        <RadioButton
+            android:id="@+id/radio_weather_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="O: Others" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/edit_weather"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/textView_errors"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:textColor="@color/red"
+        android:text="" />
+
 
 </LinearLayout>

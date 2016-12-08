@@ -8,6 +8,7 @@ public class DeviceItem {
     private String deviceName;
     private String address;
     private boolean connected;
+    private int rssi;
 
     public String getDeviceName() {
         return deviceName;
@@ -21,18 +22,22 @@ public class DeviceItem {
         return address;
     }
 
+    public int getRssi() {return rssi;}
+
     public void setDeviceName(String deviceName) {
         this.deviceName = deviceName;
     }
 
-    public DeviceItem(String name, String address, String connected){
+    public DeviceItem(String name, String address, boolean connected, int rssi){
+        if(name == null)
+            this.deviceName = "";
+        else
         this.deviceName = name;
+        if(address == null)
+            this.address = "";
+        else
         this.address = address;
-        if (connected == "true") {
-            this.connected = true;
-        }
-        else {
-            this.connected = false;
-        }
+        this.connected = connected;
+        this.rssi = rssi;
     }
 }

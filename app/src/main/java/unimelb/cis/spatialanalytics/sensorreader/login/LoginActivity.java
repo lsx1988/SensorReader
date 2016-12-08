@@ -17,7 +17,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -26,12 +25,14 @@ import java.util.Map;
 import unimelb.cis.spatialanalytics.sensorreader.MainActivity;
 import unimelb.cis.spatialanalytics.sensorreader.R;
 import unimelb.cis.spatialanalytics.sensorreader.config.ConstantConfig;
+import unimelb.cis.spatialanalytics.sensorreader.config.ForceCloseExceptionHandler;
 import unimelb.cis.spatialanalytics.sensorreader.config.SettingConfig;
 import unimelb.cis.spatialanalytics.sensorreader.config.URLConfig;
 import unimelb.cis.spatialanalytics.sensorreader.data.Users;
 import unimelb.cis.spatialanalytics.sensorreader.http.ApplicationController;
 import unimelb.cis.spatialanalytics.sensorreader.http.CustomRequest;
 import unimelb.cis.spatialanalytics.sensorreader.http.MyExceptionHandler;
+import unimelb.cis.spatialanalytics.sensorreader.sensors.SensingService;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -44,31 +45,48 @@ public class LoginActivity extends ActionBarActivity {
 
     private SharedPreferences pref;
 
+    private String username;
+    private String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ForceCloseExceptionHandler(this));
         exceptionHandler = new MyExceptionHandler(TAG, getApplicationContext());
         //ini
         pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SettingConfig.ini(pref);
 
+        Users.device= android.os.Build.MODEL;
+
+
 
         if (Users.isUserLoggedInBefore(pref)) {
 
             //get username from pref
-            String username = Users.getUserNameFromSharedPreferences(pref);
-            if (username.equals(""))
+            final boolean isTrue = Users.syncLocalFromPref(pref);
+            if (!isTrue) {
+                iniViews();
                 return;
+            }else {
+                launchMainActivity();
+                return;
+            }
+
+
 
             //user has logged in before, and then update the local user information from the server
 
             //make http request to the server to check the user information
 
-            Map<String, String> params = new HashMap<String, String>();
+            //@Deprecated
+                    //not longer support the following
+           /* Map<String, String> params = new HashMap<String, String>();
             params.put(ConstantConfig.KEY_HTTP_ACTION, "GET");
             params.put(ConstantConfig.KEY_COUCHDB_DOC_ID, username);
             String url = URLConfig.getCouchDBAPI();//get doc
             ApplicationController.getInstance().getRequestQueue().start();
+
             CustomRequest customRequest = new CustomRequest(
                     Request.Method.POST,    /////// first parameter
                     url,
@@ -79,13 +97,15 @@ public class LoginActivity extends ActionBarActivity {
                         public void onResponse(JSONObject json) {
                             Log.d(TAG, json.toString());
 
-                            /**
+                            *//**
                              * Self defined login function
-                             */
+                             *//*
                             if (!json.has(ConstantConfig.KEY_ERROR)) {
                                 //user successfully logged in
                                 //record user information into system
                                 Users.syncLocalFromServer(json);
+                                //Users.setUserNameFromSharedPreferences(pref,username);
+
                                 SettingConfig.setUserExternalStoragePath();
 
 
@@ -121,7 +141,7 @@ public class LoginActivity extends ActionBarActivity {
                     ///////////////////////////////////////////////////////////////////////////////////////
             );
             // Adding request to request queue
-            ApplicationController.getInstance().addToRequestQueue(customRequest, TAG);
+            ApplicationController.getInstance().addToRequestQueue(customRequest, TAG);*/
 
         } else {
             iniViews();
@@ -134,6 +154,7 @@ public class LoginActivity extends ActionBarActivity {
      * iniViews
      */
     public void iniViews() {
+        Log.i(TAG,"login panel interface");
         setContentView(R.layout.activity_login);
 
 
@@ -144,13 +165,6 @@ public class LoginActivity extends ActionBarActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        exceptionHandler = new MyExceptionHandler(TAG, getApplicationContext());
-
-    }
-
     /**
      * When user presses login button.
      */
@@ -158,8 +172,8 @@ public class LoginActivity extends ActionBarActivity {
     public void login(View view) {
 
 
-        final String username = editTextUsername.getText().toString();
-        final String password = editTextPasswords.getText().toString();
+        username = editTextUsername.getText().toString();
+        password = editTextPasswords.getText().toString();
         textViewError.setText("");
 
         if (username.trim().equals("")) {
@@ -171,12 +185,21 @@ public class LoginActivity extends ActionBarActivity {
             return;
         }
 
+        /**
+         * get device information
+         */
+
+
+
+
 
         //make http request to the server to check the user information
         Map<String, String> params = new HashMap<String, String>();
-        params.put(ConstantConfig.KEY_HTTP_ACTION, "GET");
+        params.put(ConstantConfig.KEY_HTTP_ACTION, ConstantConfig.HTTP_ACTION_LOGIN);
         params.put(ConstantConfig.KEY_COUCHDB_DOC_ID, username);
-        String url = URLConfig.getCouchDBAPI();//get doc
+        params.put(ConstantConfig.KEY_USER_PASSWORD, password);
+
+        String url = URLConfig.getLoginServlet();//get doc
         ApplicationController.getInstance().getRequestQueue().start();
         CustomRequest customRequest = new CustomRequest(
                 Request.Method.POST,    /////// first parameter
@@ -188,52 +211,35 @@ public class LoginActivity extends ActionBarActivity {
                     public void onResponse(JSONObject json) {
                         Log.d(TAG, json.toString());
 
-                        try {
+
                             /**
                              * Self defined login function
                              */
                             if (!json.has(ConstantConfig.KEY_ERROR)) {
-                                if (json.has(ConstantConfig.KEY_USER_PASSWORD)) {
 
-                                    String res = null;
+                                //user successfully logged in
+                                //record user information into system
+                                Users.syncLocalFromServer(json);
+                                SettingConfig.setUserExternalStoragePath();
+                                Users.setLoginStatus(pref, true);
+                                Users.setLocalPrefUserInfo(pref);
+                                InputMethodManager imm = (InputMethodManager)
+                                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(editTextUsername.getWindowToken(), 0);
+                                imm.hideSoftInputFromWindow(editTextUsername.getWindowToken(), 0);
 
-                                    res = json.getString(ConstantConfig.KEY_USER_PASSWORD);
+                                //Launch MainActivity Screen
 
-                                    if (res != null && res.equals(password)) {
-                                        //user successfully logged in
-                                        //record user information into system
-                                        Users.syncLocalFromServer(json);
-                                        SettingConfig.setUserExternalStoragePath();
-                                        Users.setLoginStatus(pref, true);
-                                        Users.setUserNameFromSharedPreferences(pref, username);
-                                        InputMethodManager imm = (InputMethodManager)
-                                                getSystemService(Context.INPUT_METHOD_SERVICE);
-                                        imm.hideSoftInputFromWindow(editTextUsername.getWindowToken(), 0);
-                                        imm.hideSoftInputFromWindow(editTextUsername.getWindowToken(), 0);
+                                launchMainActivity();
 
-                                        //Launch MainActivity Screen
+                                // Close Login Screen
+                                finish();
 
-                                        launchMainActivity();
 
-                                        // Close Login Screen
-                                        finish();
-                                    } else {
-                                        // Error in login
-                                        textViewError.setText("Incorrect password");
-                                    }
-                                } else {
-
-                                    Log.d(TAG, "Do not have password field!");
-                                    textViewError.setText("Password doesn't exist");
-
-                                }
                             } else {
                                 // Error in login
-                                textViewError.setText("Username doesn't exist");
+                                textViewError.setText(json.toString());
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
                         ApplicationController.getInstance().getRequestQueue().stop();
 
@@ -265,8 +271,13 @@ public class LoginActivity extends ActionBarActivity {
     private void launchMainActivity() {
 
 
+        //secure to close the service if it is not set up.
+        Intent service = new Intent(getApplicationContext(), SensingService.class);
+        stopService(service);
+
+
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();//close login view.
     }

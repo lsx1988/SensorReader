@@ -9,19 +9,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dip"
-        android:text="2. Rough Routes At Home With Phone (e.g.,A-B-C-A-F-G(Balcony)-A)" />
+        android:text="*Set Clock (When do you usually get up? The app automatically opens at that time everyday"
+        />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dip"
-        android:text="A->Living Room; B->Bathroom; C->Kitchen; D->Living Room; E->Toilet; F->Door; G->Others (Please specify)" />
-
-    <EditText
-        android:id="@+id/edit_route"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
+  <TimePicker
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/time_picker"></TimePicker>
 
     <!-- Error message -->
     <TextView

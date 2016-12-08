@@ -5,94 +5,133 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/profile_setting_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="false"
-        android:id="@+id/profile_setting_scroll_view"
-        android:background="@color/PowderBlue">
+        android:background="@color/PowderBlue"
+        android:fillViewport="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/PowderBlue">
+            android:layout_height="wrap_content"
+            android:background="@color/PowderBlue"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/darkgrey"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Sensing Mode"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:checkedButton="@+id/radio_manual"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_auto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Auto(simple)" />
+
+                    <RadioButton
+                        android:id="@+id/radio_manual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manual" />
+
+                </RadioGroup>
+
+            </LinearLayout>
 
             <TextView
+                android:id="@+id/txtStatus"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Status"
-                android:id="@+id/txtStatus"
-                android:layout_weight="2"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_weight="2"
                 android:gravity="center"
+                android:text="Status"
                 android:textSize="30dp" />
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Start Sensors"
-                android:textSize="20dip"
-                android:textColor="#21dbd4"
-                android:textStyle="bold"
                 android:id="@+id/btnStart"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginTop="30dp"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:background="@color/material_deep_teal_500"
-
-
-                />
+                android:text="Start Sensors"
+                android:textColor="#21dbd4"
+                android:textSize="20dip"
+                android:textStyle="bold" />
 
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Stop Sensors"
-                android:textSize="20dip"
-                android:textColor="#21dbd4"
-                android:textStyle="bold"
                 android:id="@+id/btnStop"
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@color/red" />
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:text="Stop Sensors"
+                android:textColor="#21dbd4"
+                android:textSize="20dip"
+                android:textStyle="bold" />
 
 
             <Button
+                android:id="@+id/btnRecord"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Record Leaving Times"
-                android:textSize="20dip"
-                android:textColor="#21dbd4"
-                android:textStyle="bold"
-                android:id="@+id/btnRecord"
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
                 android:layout_gravity="center_vertical"
-                android:background="@color/orange" />
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@color/orange"
+                android:text="Record Leaving Times"
+                android:textColor="#21dbd4"
+                android:textSize="20dip"
+                android:textStyle="bold" />
 
 
             <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="fileName"
                 android:id="@+id/txtFileName"
-                android:textSize="25dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-
-                android:layout_marginTop="5dp" />
-
-            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtRecordTimes"
-                android:text="file context"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:layout_marginTop="2dp" />
-        </LinearLayout>
+                android:text="fileName"
+                android:textSize="25dp" />
 
+            <TextView
+                android:id="@+id/txtRecordTimes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:text="file context" />
+
+        </LinearLayout>
 
     </ScrollView>
 

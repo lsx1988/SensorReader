@@ -11,7 +11,7 @@ import android.content.DialogInterface;
 public class CustomizedDialogs {
 
     /**
-     * simple dialgo with Dismiss only
+     * simple dialog with Dismiss only
      *
      * @return alter dialog
      */

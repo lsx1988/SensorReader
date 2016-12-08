@@ -25,7 +25,7 @@ public class FragmentAccount extends Fragment {
 
         textViewUsername=(TextView)rootView.findViewById(R.id.text_user_name);
         textViewUploadTimes=(TextView)rootView.findViewById(R.id.text_times);
-        textViewUploadTimes.setText(String.valueOf(Users.upload_times));
+        textViewUploadTimes.setText(String.valueOf(Users.getUpload_times()));
         textViewUsername.setText(Users.username);
         btnLogout=(Button)rootView.findViewById(R.id.logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +42,7 @@ public class FragmentAccount extends Fragment {
 
     public void setUploadTimes()
     {
-        textViewUploadTimes.setText(String.valueOf(Users.upload_times));
+        textViewUploadTimes.setText(String.valueOf(Users.getUpload_times()));
     }
 
 }

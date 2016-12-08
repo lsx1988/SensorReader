@@ -3,4 +3,32 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <!-- Notes -->
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:text="5. Notes (e.g.,please make some notes about this data collection set below especially wrongly press the &apos;Record Time&apos; button.)" />
+
+    <EditText
+        android:id="@+id/edit_note"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:text="" />
+
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/textView_errors"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:textColor="@color/red"
+        android:text="" />
+
+
+
+
+    </LinearLayout>

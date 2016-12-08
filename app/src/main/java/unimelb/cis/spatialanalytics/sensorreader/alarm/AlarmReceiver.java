@@ -38,11 +38,17 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
          * In this example, we simply create a new intent to deliver to the service.
          * This intent holds an extra identifying the wake lock.
          */
-        Intent service = new Intent(context, SampleSchedulingService.class);
+      /*  Intent service = new Intent(context, SampleSchedulingService.class);*/
         
         // Start the service, keeping the device awake while it is launching.
-        startWakefulService(context, service);
+        //startWakefulService(context, service);
         // END_INCLUDE(alarm_onreceive)
+
+
+
+
+
+
     }
 
     // BEGIN_INCLUDE(set_alarm)
@@ -100,7 +106,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         
         // Enable {@code SampleBootReceiver} to automatically restart the alarm when the
         // device is rebooted.
-        ComponentName receiver = new ComponentName(context, SampleBootReceiver.class);
+        ComponentName receiver = new ComponentName(context, AlarmBootReceiver.class);
         PackageManager pm = context.getPackageManager();
 
         pm.setComponentEnabledSetting(receiver,
@@ -122,7 +128,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         
         // Disable {@code SampleBootReceiver} so that it doesn't automatically restart the 
         // alarm when the device is rebooted.
-        ComponentName receiver = new ComponentName(context, SampleBootReceiver.class);
+        ComponentName receiver = new ComponentName(context, AlarmBootReceiver.class);
         PackageManager pm = context.getPackageManager();
 
         pm.setComponentEnabledSetting(receiver,

@@ -10,10 +10,6 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
 import unimelb.cis.spatialanalytics.sensorreader.R;
 import unimelb.cis.spatialanalytics.sensorreader.data.FileListManager;
 import unimelb.cis.spatialanalytics.sensorreader.http.UploadFileToServer;
@@ -44,17 +40,13 @@ public class FragmentUploadFile extends Fragment {
         textViewError.setText("");
 
 
-        FileListManager.folderList=fileWalker.createGroupList();
-
-        FileListManager.fileCollections=fileWalker.createCollection();
-
-
+        FileListManager.createBoth();
 
 
 
         expListView = (ExpandableListView) rootView.findViewById(R.id.file_list);
         expListAdapter = new UploadFileListAdapter(
-                getActivity(),textViewError,expListView, FileListManager.folderList, FileListManager.fileCollections);
+                getActivity(),textViewError,expListView);
         expListView.setAdapter(expListAdapter);
 
         //setGroupIndicatorToRight();
@@ -127,11 +119,11 @@ public class FragmentUploadFile extends Fragment {
     }
 
 
-    public void setListValues(List<File> folderList,
+/*    public void setListValues(List<File> folderList,
                               Map<File, List<File>> fileCollections) {
         FileListManager.fileCollections = fileCollections;
         FileListManager.folderList = folderList;
         expListAdapter.notifyDataSetInvalidated();
-    }
+    }*/
 
 }

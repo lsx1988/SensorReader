@@ -1,10 +1,67 @@
 <resources>
 
     <!-- Base application theme. -->
-   <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
-
-    <!-- Customize your theme here. -->
+        android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+        <!-- Customize your theme here. -->
     </style>
+
+
+    <style name="setting_left_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="setting_right_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="setting_icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/ic_edit</item>
+    </style>
+
+    <style name="setting_sub_linear_layout_vertical">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="setting_sub_linear_layout_horizontal">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/grey</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+
+
+    </style>
+
+    <style name="divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:background">#cfc6cd</item>
+
+    </style>
+
 
 </resources>
