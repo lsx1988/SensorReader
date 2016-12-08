@@ -1,4 +1,4 @@
-package unimelb.cis.spatialanalytics.sensorreader.services;
+package unimelb.cis.spatialanalytics.sensorreader.sensors;
 
 import android.app.Notification;
 import android.app.Service;
@@ -29,9 +29,10 @@ import java.util.List;
 import java.util.Map;
 
 import unimelb.cis.spatialanalytics.sensorreader.config.ConstantConfig;
+import unimelb.cis.spatialanalytics.sensorreader.config.SettingConfig;
 import unimelb.cis.spatialanalytics.sensorreader.data.SensorData;
+import unimelb.cis.spatialanalytics.sensorreader.fragments.FragmentMainPanel;
 import unimelb.cis.spatialanalytics.sensorreader.io.FileIO;
-import unimelb.cis.spatialanalytics.sensorreader.sensors.WifiScanner;
 
 /**
  * Author: Han Li
@@ -49,12 +50,12 @@ public class SensingService extends Service implements SensorEventListener, Loca
     private PowerManager.WakeLock mWakeLock = null;
 
     private List<Sensor> listSensor = new ArrayList<Sensor>();//data.getListSensor();
-    private Map<String,Integer> sensorListAttributes=new HashMap<String,Integer>();
+    private Map<String, Integer> sensorListAttributes = new HashMap<String, Integer>();
 
     private static LocationManager locationMgr = null;
     private static Location currentLocation = null;
 
-    private FileIO fileIO=new FileIO();
+    private FileIO fileIO = new FileIO();
 
 
     /*
@@ -88,7 +89,7 @@ public class SensingService extends Service implements SensorEventListener, Loca
         registerSensorListener();
 
 		/*
-		 * Location services
+         * Location services
 		 */
 
         try {
@@ -245,8 +246,8 @@ public class SensingService extends Service implements SensorEventListener, Loca
             mode = 3;*/
 
 
-        if(!sensorListAttributes.containsKey(sensorType))
-            sensorListAttributes.put(sensorType,values.length);
+        if (!sensorListAttributes.containsKey(sensorType))
+            sensorListAttributes.put(sensorType, values.length);
 
         fileIO.writeSensorDataToFile(sensorType, values, values.length);
 
@@ -264,7 +265,7 @@ public class SensingService extends Service implements SensorEventListener, Loca
 
 
         //wifi set up
-        setwifi();
+        setWifi();
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
 
         registerReceiver(mReceiver, filter);
@@ -283,19 +284,19 @@ public class SensingService extends Service implements SensorEventListener, Loca
         mWakeLock.release();
         stopForeground(true);
         //store the attributes of sensors
-        sensorListAttributes.put(ConstantConfig.KEY_LEAVING_HOME_TIMES,1);
-        sensorListAttributes.put(ConstantConfig.KEY_WIFI_FILE_NAME,8);
-        sensorListAttributes.put(ConstantConfig.KEY_LOCATION_FILE_NAME,5);
-        sensorListAttributes.put(ConstantConfig.KEY_NOTES,0);
-        sensorListAttributes.put(ConstantConfig.KEY_PRESS_STOP_BUTTON_TIME,1);
+        sensorListAttributes.put(ConstantConfig.KEY_LEAVING_HOME_TIMES, 1);
+        sensorListAttributes.put(ConstantConfig.KEY_WIFI_FILE_NAME, 8);
+        sensorListAttributes.put(ConstantConfig.KEY_LOCATION_FILE_NAME, 5);
+        sensorListAttributes.put(ConstantConfig.KEY_NOTES, 0);
+        sensorListAttributes.put(ConstantConfig.KEY_PRESS_STOP_BUTTON_TIME, 1);
 
         fileIO.writeSensorAttributesToFile(sensorListAttributes);
 
+
         //clear SensorData!
-        SensorData.clear();
+        //SensorData.clear();
+        SensorData.isSensorRunning = false;
         //SensorData.isSensorRunning=false;
-
-
 
 
     }
@@ -320,12 +321,13 @@ public class SensingService extends Service implements SensorEventListener, Loca
 	 */
 
 
-    private void setwifi() {
+    private void setWifi() {
         wifiListener = new WifiScanner.Listener() {
 
             @Override
             public void onScanError(int error) {
                 // TODO Auto-generated method stub
+                Log.e(TAG,"scan error code : "+error);
 
             }
 
@@ -334,7 +336,19 @@ public class SensingService extends Service implements SensorEventListener, Loca
 
                 WifiManager mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
                 WifiInfo currentWifi = mainWifi.getConnectionInfo();
+                //stop the server in auto mode if the wifi disconnected
+
+
                 fileIO.writeWifiDataToFile(scanResults, currentWifi);
+
+                if (SettingConfig.getSensingMode() == ConstantConfig.SENSING_MODE_AUTO
+                        && FragmentMainPanel.isSuccessBySystem
+                        && currentWifi == null) {
+                    //stopSelf();
+                    Log.e(TAG, "SensingService calling destroy by itself");
+                    FragmentMainPanel.onSensingServerResult.onSensingServiceResult();
+                }
+
 
             }
         };
@@ -360,7 +374,10 @@ public class SensingService extends Service implements SensorEventListener, Loca
 
     }
 
+    public interface OnSensingServiceResult {
+        public void onSensingServiceResult();
 
+    }
 
 
     @Override
@@ -502,8 +519,6 @@ public class SensingService extends Service implements SensorEventListener, Loca
 
 
     }
-
-
 
 
 }

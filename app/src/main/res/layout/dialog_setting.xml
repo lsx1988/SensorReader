@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/setting_linear_0"
+                style="@style/setting_sub_linear_layout_vertical"
+               >
+
+                <TextView
+                    android:text="*Set Clock (When do you usually get up? The app will automatically opens at that time everyday"
+                    style="@style/setting_left_text" />
+
+                <LinearLayout
+                    android:id="@+id/setting_linear_layout_clock_time"
+                    style="@style/setting_sub_linear_layout_horizontal">
+
+                    <TextView
+                        android:text="Clock Time"
+                        android:id="@+id/setting_right_clock_time"
+                        style="@style/setting_right_text" />
+
+                    <ImageView style="@style/setting_icon" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/setting_linear_1"
+
+                style="@style/setting_sub_linear_layout_vertical"
+              >
+
+                <TextView
+                    android:text="*1.Phone Position(How you hold the phone? This Field is Mandatory!)"
+                    style="@style/setting_left_text" />
+
+                <LinearLayout
+                    android:id="@+id/setting_linear_layout_phone_orientation"
+                    style="@style/setting_sub_linear_layout_horizontal">
+
+                    <TextView
+                        android:text="Phone Position"
+                        android:id="@+id/setting_right_phone_orientation"
+                        style="@style/setting_right_text" />
+
+                    <ImageView style="@style/setting_icon" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/setting_linear_2"
+
+                style="@style/setting_sub_linear_layout_vertical">
+
+                <TextView
+                    android:text="2.Rough Routes(The places you visited at home)"
+                    style="@style/setting_left_text" />
+
+                <LinearLayout
+                    android:id="@+id/setting_linear_layout_routes"
+                    style="@style/setting_sub_linear_layout_horizontal">
+
+                    <TextView
+                        android:id="@+id/setting_right_route"
+                        style="@style/setting_right_text"
+                        android:text="routes" />
+
+                    <ImageView style="@style/setting_icon" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/setting_linear_3"
+
+                style="@style/setting_sub_linear_layout_vertical">
+
+                <TextView
+                    android:text="3.Weather"
+                    style="@style/setting_left_text" />
+
+                <LinearLayout
+                    android:id="@+id/setting_linear_weather"
+                    style="@style/setting_sub_linear_layout_horizontal">
+
+                    <TextView
+                        android:text="weather"
+                        android:id="@+id/setting_right_weather"
+                        style="@style/setting_right_text" />
+
+                    <ImageView style="@style/setting_icon" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/setting_linear_4"
+                style="@style/setting_sub_linear_layout_vertical">
+
+                <TextView
+                    android:text="4.Activities with the Phone"
+                    style="@style/setting_left_text" />
+
+                <LinearLayout
+                    android:id="@+id/setting_linear_activities"
+                    style="@style/setting_sub_linear_layout_horizontal">
+
+                    <TextView
+                        android:text="activity"
+                        android:id="@+id/setting_right_activity"
+                        style="@style/setting_right_text" />
+
+                    <ImageView style="@style/setting_icon" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/setting_linear_5"
+
+                style="@style/setting_sub_linear_layout_vertical">
+
+                <TextView
+                    android:text="5.Make Some Notes"
+                    style="@style/setting_left_text" />
+
+                <LinearLayout
+                    android:id="@+id/setting_linear_notes"
+                    style="@style/setting_sub_linear_layout_horizontal">
+
+                    <TextView
+                        android:text="notes"
+                        android:id="@+id/setting_right_notes"
+                        style="@style/setting_right_text" />
+
+                    <ImageView style="@style/setting_icon" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+

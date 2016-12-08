@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Rough Route -->
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:text="2. Rough Routes At Home With Phone (e.g.,A-B-C-A-F-G(Balcony)-A)" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:text="A->Living Room; B->Bathroom; C->Kitchen; D->Living Room; E->Toilet; F->Door; G->Others (Please specify)" />
+
+    <EditText
+        android:id="@+id/edit_route"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/textView_errors"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:textColor="@color/red"
+        android:text="" />
+    <Button
+        android:id="@+id/btn_OK"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:background="#3B5998"
+
+        android:text="OK" />
+
+    <Button
+        android:id="@+id/btn_Cancel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:background="@color/material_deep_teal_200"
+        android:text="Cancel" />
+
+</LinearLayout>

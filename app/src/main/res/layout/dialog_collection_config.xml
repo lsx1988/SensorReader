@@ -161,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:text="" />
 
-            <!-- Main Activities Defination -->
+            <!-- Main Activities Definition -->
 
             <TextView
                 android:layout_width="fill_parent"
@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCheckboxClicked"
-                android:checked="true"
+                android:checked="false"
                 android:text="B: Shower" />
 
             <CheckBox
@@ -190,7 +190,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCheckboxClicked"
-                android:checked="true"
+                android:checked="false"
                 android:text="C: Toilet" />
 
             <CheckBox
@@ -198,7 +198,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCheckboxClicked"
-                android:checked="true"
+                android:checked="false"
                 android:text="D: Dressing" />
 
             <CheckBox
@@ -220,7 +220,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCheckboxClicked"
-                android:checked="true"
+                android:checked="false"
                 android:text="G: Phone Related, e.g., facebook, chatting, talk, message, etc" />
 
             <CheckBox
