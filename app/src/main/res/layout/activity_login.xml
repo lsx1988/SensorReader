@@ -9,57 +9,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <!--  View Title Label -->
+        <TextView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:padding="10dip">
-            <!--  View Title Label -->
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dip"
-                android:text="LOGIN"
-                android:textSize="25dip"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-            <!--  Email Label -->
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Username"
-                android:textColor="@color/white" />
-            <!--  Email TextField -->
-            <EditText
-                android:id="@+id/login_username"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:text="LOGIN"
+            android:textColor="@color/white"
+            android:textSize="25dip"
+            android:textStyle="bold" />
+        <!--  Email TextField -->
+        <EditText
+            android:id="@+id/login_username"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:textColorHint="#ffffff" />
 
-            <!--  Password Label -->
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dip"
-                android:textColor="@color/white"
-                android:text="Password" />
-            <!--  Password TextField -->
-            <EditText
-                android:id="@+id/loginPassword"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:password="true" />
+        <!--  Password TextField -->
+        <EditText
+            android:id="@+id/loginPassword"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColorHint="#ffffff" />
 
-            <!--  Error message -->
-            <TextView
-                android:id="@+id/login_error"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#e30000"
-                android:padding="10dip"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
+        <!--  Error message -->
+        <TextView
+            android:id="@+id/login_error"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:textColor="#e30000"
+            android:textStyle="bold" />
         <!--  Login Button -->
         <Button
             android:id="@+id/btnLogin"
@@ -67,8 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:background="#3B5998"
+            android:onClick="login"
             android:text="Sign In"
-            android:textStyle="bold"
-            android:onClick="login" />
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>
